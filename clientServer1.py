@@ -9,6 +9,7 @@ import struct
 import ipaddress
 import csv
 import pprint
+import threading
 
 ########################################################################
 
@@ -55,7 +56,7 @@ class Server:
     BACKLOG = 5
     ENCODING = 'utf-8'
 
-    active_chatrooms = []
+    thread_list = []
 
     def __init__(self) -> None:
         self.create_listen_socket()
@@ -64,7 +65,18 @@ class Server:
     
     def open_chatrooms(self):
         f = open('chatrooms.csv')
+        room_list = list(csv.reader(f, delimiter=','))
+        f.close()
+        
+        for i in room_list:
+            threading.Thread()
 
+    # def create_chatroom(self, addr, port):
+    #     try:
+    #         my_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    #         ttl = struct.pack('B', 1)
+    #         my_socket.setsockopt(socket.IPPROTO_IP, socket.IP_MULTICAST_TTL, ttl)
+    #         my_socket.bind((addr, port))
 
     def create_listen_socket(self):
         try:    
